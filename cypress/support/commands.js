@@ -30,8 +30,9 @@ let name = faker.name.firstName()
 let lastname = faker.name.lastName()
 let email = faker.internet.email()
 let phonenumber = faker.phone.phoneNumber().replace('-','').replace('(','').replace(')','').replace('+','').replace('55','').replace(' ','4')
-
+const THREE_SECONDS_IN_MS = 3000
 Cypress.Commands.add('fillMandatoryFieldsAndSubmit', function() {
+    cy.clock()
     cy.get('#firstName')
       .should('be.visible')
       .type(name)
@@ -59,6 +60,7 @@ Cypress.Commands.add('fillMandatoryFieldsAndSubmit', function() {
     cy.contains('Enviar')
       .click()
 
+    cy.tick(THREE_SECONDS_IN_MS)
     cy.get('.success')  
       .should('contain','Mensagem enviada com sucesso.')
 })
